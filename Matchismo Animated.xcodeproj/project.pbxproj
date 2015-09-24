@@ -198,7 +198,7 @@
 				25D813251BB3A8EA00FC2284 /* SetCardDeck.h */,
 				25D813261BB3A8EA00FC2284 /* SetCardDeck.m */,
 			);
-			name = Model;
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
