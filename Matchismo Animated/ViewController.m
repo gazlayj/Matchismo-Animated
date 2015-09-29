@@ -18,6 +18,14 @@
 
 @implementation ViewController
 
+- (Grid *)cardGrid
+{
+    if (!_cardGrid) {
+        [self createCardGrid];
+    }
+    return _cardGrid;
+}
+
 - (Deck *)deck
 {
     if (!_deck) _deck = [[PlayingCardDeck alloc] init];
@@ -38,32 +46,39 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [self createCardGrid];
+    [self populateCardGrid];
 }
 
 -(void)createCardGrid
 {
-    Grid *cardGrid = [[Grid alloc] init];
-    cardGrid.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
-    cardGrid.cellAspectRatio = 0.65;
-    cardGrid.minimumNumberOfCells = 10;
-    
-    if (cardGrid.inputsAreValid) {
-        for (NSUInteger column = 0; column < cardGrid.columnCount; column++) {
-            for (NSUInteger row = 0; row < cardGrid.rowCount; row++) {
-                CGRect cardFrame = [cardGrid frameOfCellAtRow:row inColumn:column];
-                PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardFrame];
-                
-                [self drawRandomPlayingCardForCardView:cardView];
-                cardView.faceUp = YES;
-                [self.view addSubview:cardView];
-                NSLog(@"Card %lu%@ at Column: %lu, Row: %lu created",(unsigned long)cardView.rank, cardView.suit, (unsigned long)column, (unsigned long)row);
+    self.cardGrid = [[Grid alloc] init];
+    self.cardGrid.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    self.cardGrid.cellAspectRatio = 0.65;
+    self.cardGrid.minimumNumberOfCells = 10;
+}
+
+- (void)populateCardGrid
+{
+        if (self.cardGrid.inputsAreValid) {
+        for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
+            for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
+                CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
+                [self addCardViewWithFrame:cardFrame];
             }
         }
     } else {
-        NSLog(@"Inputs not Valid");
+        NSLog(@"Grid not created! inputs invalid");
     }
-    
+}
+
+- (void)addCardViewWithFrame:(CGRect)cardViewFrame
+{
+    PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardViewFrame];
+                
+    [self drawRandomPlayingCardForCardView:cardView];
+    cardView.faceUp = YES;
+    [self.view addSubview:cardView];
+    NSLog(@"Card %lu%@ at Column: %lu, Row: %lu created",(unsigned long)cardView.rank, cardView.suit, (unsigned long)column, (unsigned long)row);
 }
 
 @end
