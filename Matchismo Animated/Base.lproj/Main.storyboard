@@ -15,35 +15,11 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kfb-JW-C0G" customClass="PlayingCardView">
-                                <rect key="frame" x="199" y="156" width="203" height="288"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="DBM-1f-vOY" appends="YES" id="RJV-Xa-IdB"/>
-                                    <outletCollection property="gestureRecognizers" destination="H45-gK-VV7" appends="YES" id="Ban-KJ-wu6"/>
-                                </connections>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="Kfb-JW-C0G" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="qZs-ZX-Eya"/>
-                            <constraint firstItem="Kfb-JW-C0G" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vHT-8a-gBW"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="playingCardView" destination="Kfb-JW-C0G" id="SAC-xv-jRP"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="DBM-1f-vOY">
-                    <connections>
-                        <action selector="swipe:" destination="BYZ-38-t0r" id="Pk0-kA-bWk"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <pinchGestureRecognizer id="H45-gK-VV7"/>
             </objects>
             <point key="canvasLocation" x="313" y="429"/>
         </scene>

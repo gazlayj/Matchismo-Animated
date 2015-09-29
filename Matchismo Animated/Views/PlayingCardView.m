@@ -7,6 +7,7 @@
 //
 
 #import "PlayingCardView.h"
+#import "Grid.h"
 
 @interface PlayingCardView()
 @property (nonatomic) CGFloat faceCardScaleFactor;
@@ -256,6 +257,7 @@
     [self setup];
     return self;
 }
+
 
 
 @end

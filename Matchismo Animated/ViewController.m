@@ -10,9 +10,9 @@
 #import "PlayingCardView.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCard.h"
+#import "Grid.h"
 
 @interface ViewController ()
-@property (weak, nonatomic) IBOutlet PlayingCardView *playingCardView;
 @property (strong, nonatomic) Deck *deck;
 @end
 
@@ -24,27 +24,46 @@
     return _deck;
 }
 
-- (void)drawRandomPlayingCard
+- (void)drawRandomPlayingCardForCardView:(PlayingCardView *)cardView
 {
     Card *card = [self.deck drawRandomCard];
     if ([card isKindOfClass:[PlayingCard class]]) {
         PlayingCard *playingCard = (PlayingCard *)card;
-        self.playingCardView.rank = playingCard.rank;
-        self.playingCardView.suit = playingCard.suit;
+        cardView.rank = playingCard.rank;
+        cardView.suit = playingCard.suit;
     }
-}
-
-- (IBAction)swipe:(UISwipeGestureRecognizer *)sender
-{
-    if (!self.playingCardView.faceUp) [self drawRandomPlayingCard];
-    self.playingCardView.faceUp = !self.playingCardView.faceUp;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [self.playingCardView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self.playingCardView action:@selector(pinch:)]];
+    [self createCardGrid];
+}
+
+-(void)createCardGrid
+{
+    Grid *cardGrid = [[Grid alloc] init];
+    cardGrid.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    cardGrid.cellAspectRatio = 0.65;
+    cardGrid.minimumNumberOfCells = 10;
+    
+    if (cardGrid.inputsAreValid) {
+        for (NSUInteger column = 0; column < cardGrid.columnCount; column++) {
+            for (NSUInteger row = 0; row < cardGrid.rowCount; row++) {
+                CGRect cardFrame = [cardGrid frameOfCellAtRow:row inColumn:column];
+                PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardFrame];
+                
+                [self drawRandomPlayingCardForCardView:cardView];
+                cardView.faceUp = YES;
+                [self.view addSubview:cardView];
+                NSLog(@"Card %lu%@ at Column: %lu, Row: %lu created",(unsigned long)cardView.rank, cardView.suit, (unsigned long)column, (unsigned long)row);
+            }
+        }
+    } else {
+        NSLog(@"Inputs not Valid");
+    }
+    
 }
 
 @end
