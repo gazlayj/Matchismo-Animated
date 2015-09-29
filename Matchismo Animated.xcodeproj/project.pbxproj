@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25CFA70F1BBA1F4F0089DACF /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFA70E1BBA1F4F0089DACF /* Grid.m */; settings = {ASSET_TAGS = (); }; };
 		25D812E11BB39CC600FC2284 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D812E01BB39CC600FC2284 /* main.m */; };
 		25D812E41BB39CC600FC2284 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D812E31BB39CC600FC2284 /* AppDelegate.m */; };
 		25D812E71BB39CC600FC2284 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D812E61BB39CC600FC2284 /* ViewController.m */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25CFA70D1BBA1F4F0089DACF /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
+		25CFA70E1BBA1F4F0089DACF /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
 		25D812DC1BB39CC600FC2284 /* Matchismo Animated.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Matchismo Animated.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25D812E01BB39CC600FC2284 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		25D812E21BB39CC600FC2284 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -105,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25CFA70C1BBA1F4F0089DACF /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				25CFA70D1BBA1F4F0089DACF /* Grid.h */,
+				25CFA70E1BBA1F4F0089DACF /* Grid.m */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
 		25D812D31BB39CC600FC2284 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +140,7 @@
 		25D812DE1BB39CC600FC2284 /* Matchismo Animated */ = {
 			isa = PBXGroup;
 			children = (
+				25CFA70C1BBA1F4F0089DACF /* Grid */,
 				25D813151BB39F7000FC2284 /* Views */,
 				25D812E51BB39CC600FC2284 /* ViewController.h */,
 				25D812E61BB39CC600FC2284 /* ViewController.m */,
@@ -334,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25CFA70F1BBA1F4F0089DACF /* Grid.m in Sources */,
 				25D8132A1BB3A8EA00FC2284 /* Deck.m in Sources */,
 				25D813271BB3A8EA00FC2284 /* Card.m in Sources */,
 				25D812E71BB39CC600FC2284 /* ViewController.m in Sources */,
@@ -571,6 +585,7 @@
 				25D8130B1BB39CC700FC2284 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		25D8130C1BB39CC700FC2284 /* Build configuration list for PBXNativeTarget "Matchismo AnimatedTests" */ = {
 			isa = XCConfigurationList;
@@ -579,6 +594,7 @@
 				25D8130E1BB39CC700FC2284 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		25D8130F1BB39CC700FC2284 /* Build configuration list for PBXNativeTarget "Matchismo AnimatedUITests" */ = {
 			isa = XCConfigurationList;
@@ -587,6 +603,7 @@
 				25D813111BB39CC700FC2284 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
