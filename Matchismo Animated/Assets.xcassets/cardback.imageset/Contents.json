@@ -9,6 +9,10 @@
       "idiom" : "universal",
       "filename" : "stanford-tree.png",
       "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

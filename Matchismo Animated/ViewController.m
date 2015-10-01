@@ -78,7 +78,6 @@
     [self drawRandomPlayingCardForCardView:cardView];
     cardView.faceUp = YES;
     [self.view addSubview:cardView];
-    NSLog(@"Card %lu%@ at Column: %lu, Row: %lu created",(unsigned long)cardView.rank, cardView.suit, (unsigned long)column, (unsigned long)row);
 }
 
 @end
