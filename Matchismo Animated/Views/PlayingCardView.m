@@ -59,11 +59,10 @@
 
 #pragma mark - Gesture Handling
 
--(void)pinch:(UIPinchGestureRecognizer *)gesture
+-(void)tappedCard:(UITapGestureRecognizer *)sender
 {
-    if ((gesture.state == UIGestureRecognizerStateChanged) || (gesture.state == UIGestureRecognizerStateEnded)) {
-        self.faceCardScaleFactor *= gesture.scale;
-        gesture.scale = 1.0;
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        self.faceUp = !self.faceUp;
     }
 }
 

@@ -14,6 +14,7 @@
 
 @interface ViewController ()
 @property (strong, nonatomic) Deck *deck;
+@property (weak, nonatomic) IBOutlet UIView *cardsContainerView;
 @end
 
 @implementation ViewController
@@ -52,7 +53,7 @@
 -(void)createCardGrid
 {
     self.cardGrid = [[Grid alloc] init];
-    self.cardGrid.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    self.cardGrid.size = CGSizeMake(self.view.bounds.size.width, self.cardsContainerView.bounds.size.height);
     self.cardGrid.cellAspectRatio = 0.65;
     self.cardGrid.minimumNumberOfCells = 10;
 }
@@ -76,8 +77,12 @@
     PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardViewFrame];
                 
     [self drawRandomPlayingCardForCardView:cardView];
-    cardView.faceUp = YES;
-    [self.view addSubview:cardView];
+    cardView.faceUp = NO;
+    [self.cardsContainerView addSubview:cardView];
+    UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:cardView action:@selector(tappedCard:)];
+    tapped.numberOfTapsRequired = 1;
+    [cardView addGestureRecognizer:tapped];
+    
 }
 
 @end

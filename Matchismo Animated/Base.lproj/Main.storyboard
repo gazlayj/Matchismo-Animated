@@ -15,9 +15,23 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vV-TQ-WfW">
+                                <rect key="frame" x="0.0" y="28" width="600" height="572"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="7vV-TQ-WfW" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="7o9-4C-2t2"/>
+                            <constraint firstAttribute="trailing" secondItem="7vV-TQ-WfW" secondAttribute="trailing" id="MIj-mX-aec"/>
+                            <constraint firstItem="7vV-TQ-WfW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fZW-Ka-0Jr"/>
+                            <constraint firstItem="7vV-TQ-WfW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="t1Z-30-aU3"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cardsContainerView" destination="7vV-TQ-WfW" id="kiP-8h-i7n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
