@@ -106,8 +106,8 @@
 - (void)populateCardGrid
 {
     if (self.cardGrid.inputsAreValid) {
-        for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
-            for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
+        for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
+            for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
                 CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
                 NSUInteger indexForCell = [self indexForGridCellAtColumn:column andRow:row];
                 if (indexForCell < [self.cards count]) {
@@ -145,7 +145,7 @@
 
 - (NSUInteger)indexForGridCellAtColumn:(NSUInteger)column andRow:(NSUInteger)row
 {
-    return ([self.cardGrid columnCount] * column) + row;
+    return ([self.cardGrid columnCount] * row) + column;
 }
 
 
