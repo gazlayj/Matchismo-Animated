@@ -11,6 +11,5 @@
 
 @interface ViewController : UIViewController
 
-@property (strong, nonatomic) Grid *cardGrid;
 @end
 

@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "PlayingCardView.h"
 #import "PlayingCardDeck.h"
-#import "PlayingCard.h"
+#import "CardsViewController.h"
 #import "Grid.h"
 
 @interface ViewController ()
@@ -20,13 +20,8 @@
 
 @implementation ViewController
 
-- (Grid *)cardGrid
-{
-    if (!_cardGrid) {
-        [self createCardGrid];
-    }
-    return _cardGrid;
-}
+static const int NUMBER_OF_CARDS_TO_SHOW = 20;
+
 
 - (Deck *)deck
 {
@@ -34,15 +29,7 @@
     return _deck;
 }
 
-- (void)drawRandomPlayingCardForCardView:(PlayingCardView *)cardView
-{
-    Card *card = [self.deck drawRandomCard];
-    if ([card isKindOfClass:[PlayingCard class]]) {
-        PlayingCard *playingCard = (PlayingCard *)card;
-        cardView.rank = playingCard.rank;
-        cardView.suit = playingCard.suit;
-    }
-}
+
 
 - (void)viewDidLoad
 {
@@ -52,42 +39,27 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [self populateCardGrid];
+    [self displayCardsViewController];
 }
 
-- (void)createCardGrid
+- (void)displayCardsViewController
 {
-    self.cardGrid = [[Grid alloc] init];
-    self.cardGrid.size = CGSizeMake(self.cardsContainerView.bounds.size.width, self.cardsContainerView.bounds.size.height);
-    self.cardGrid.cellAspectRatio = 0.65;
-    self.cardGrid.minimumNumberOfCells = 30;
-}
-
-- (void)populateCardGrid
-{
-        if (self.cardGrid.inputsAreValid) {
-        for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
-            for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
-                CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
-                [self addCardViewWithFrame:cardFrame];
-            }
-        }
-    } else {
-        NSLog(@"Grid not created! inputs invalid");
+    NSMutableArray *cards = [[NSMutableArray alloc] init];
+    for (int i = 0; i < NUMBER_OF_CARDS_TO_SHOW; i++) {
+        [cards addObject:[self.deck drawRandomCard]];
     }
+    CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:[cards copy]];
+    [self displayContentController:cardsVC];
 }
 
-- (void)addCardViewWithFrame:(CGRect)cardViewFrame
-{
-    PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardViewFrame];
-                
-    [self drawRandomPlayingCardForCardView:cardView];
-    cardView.faceUp = NO;
-    [self.cardsContainerView addSubview:cardView];
-    UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:cardView action:@selector(tappedCard:)];
-    tapped.numberOfTapsRequired = 1;
-    [cardView addGestureRecognizer:tapped];
-    
+- (void) displayContentController:(UIViewController*)content {
+    [self addChildViewController:content];
+    content.view.frame = self.cardsContainerView.frame;
+    [self.view addSubview:content.view];
+    [content didMoveToParentViewController:self];
 }
+
+
+
 
 @end

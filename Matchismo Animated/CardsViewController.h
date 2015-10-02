@@ -13,7 +13,7 @@
 
 - (instancetype)initWithCards:(NSArray *)cards;
 
-- (void)replaceCards:(NSArray *)currentCards withNewCards:(NSArray *)newCards;
+- (void)replaceCards:(NSArray *)currentCards withNewCards:(NSArray *)newCards animated:(BOOL)animated;
 
 
 @end
