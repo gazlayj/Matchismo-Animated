@@ -14,5 +14,4 @@
 @property (strong, nonatomic) NSString *suit;
 @property (nonatomic) BOOL faceUp;
 
--(void)tappedCard:(UITapGestureRecognizer *)sender;
 @end
