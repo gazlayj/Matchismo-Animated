@@ -57,14 +57,6 @@
     return @[@"?",@"A",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"J",@"Q",@"K"][self.rank];
 }
 
-#pragma mark - Gesture Handling
-
--(void)tappedCard:(UITapGestureRecognizer *)sender
-{
-    if (sender.state == UIGestureRecognizerStateEnded) {
-        self.faceUp = !self.faceUp;
-    }
-}
 
 #pragma mark - Drawing
 
