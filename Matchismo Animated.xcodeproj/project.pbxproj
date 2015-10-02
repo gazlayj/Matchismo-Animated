@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2522C02D1BBE1C5C006AA179 /* CardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2522C02C1BBE1C5C006AA179 /* CardsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		25CFA70F1BBA1F4F0089DACF /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFA70E1BBA1F4F0089DACF /* Grid.m */; settings = {ASSET_TAGS = (); }; };
 		25D812E11BB39CC600FC2284 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D812E01BB39CC600FC2284 /* main.m */; };
 		25D812E41BB39CC600FC2284 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D812E31BB39CC600FC2284 /* AppDelegate.m */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2522C02B1BBE1C5C006AA179 /* CardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardsViewController.h; sourceTree = "<group>"; };
+		2522C02C1BBE1C5C006AA179 /* CardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardsViewController.m; sourceTree = "<group>"; };
 		25CFA70D1BBA1F4F0089DACF /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		25CFA70E1BBA1F4F0089DACF /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
 		25D812DC1BB39CC600FC2284 /* Matchismo Animated.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Matchismo Animated.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +147,8 @@
 				25D813151BB39F7000FC2284 /* Views */,
 				25D812E51BB39CC600FC2284 /* ViewController.h */,
 				25D812E61BB39CC600FC2284 /* ViewController.m */,
+				2522C02B1BBE1C5C006AA179 /* CardsViewController.h */,
+				2522C02C1BBE1C5C006AA179 /* CardsViewController.m */,
 				25D812E81BB39CC600FC2284 /* Main.storyboard */,
 				25D812EB1BB39CC600FC2284 /* Assets.xcassets */,
 				25D813161BB3A88100FC2284 /* Model */,
@@ -359,6 +364,7 @@
 				25D812E11BB39CC600FC2284 /* main.m in Sources */,
 				25D8132E1BB3A8EA00FC2284 /* SetCardDeck.m in Sources */,
 				25D813281BB3A8EA00FC2284 /* CardGameAction.m in Sources */,
+				2522C02D1BBE1C5C006AA179 /* CardsViewController.m in Sources */,
 				25D813291BB3A8EA00FC2284 /* CardMatchingGame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

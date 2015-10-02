@@ -16,26 +16,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vV-TQ-WfW">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KgK-fk-Xra">
                                 <rect key="frame" x="0.0" y="28" width="600" height="572"/>
-                            </view>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="HJk-et-dmm" kind="embed" id="w6a-9z-W9v"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="7vV-TQ-WfW" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="7o9-4C-2t2"/>
-                            <constraint firstAttribute="trailing" secondItem="7vV-TQ-WfW" secondAttribute="trailing" id="MIj-mX-aec"/>
-                            <constraint firstItem="7vV-TQ-WfW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fZW-Ka-0Jr"/>
-                            <constraint firstItem="7vV-TQ-WfW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="t1Z-30-aU3"/>
+                            <constraint firstItem="KgK-fk-Xra" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="QTh-xG-gNL"/>
+                            <constraint firstItem="KgK-fk-Xra" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="SOP-5H-0W2"/>
+                            <constraint firstItem="KgK-fk-Xra" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="pwP-AK-EaH"/>
+                            <constraint firstItem="KgK-fk-Xra" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sZO-LL-def"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cardsContainerView" destination="7vV-TQ-WfW" id="kiP-8h-i7n"/>
+                        <outlet property="cardsContainerView" destination="KgK-fk-Xra" id="zad-AY-31e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="313" y="429"/>
+        </scene>
+        <!--Cards View Controller-->
+        <scene sceneID="2hJ-eI-dqb">
+            <objects>
+                <viewController id="HJk-et-dmm" customClass="CardsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oMa-Zj-GOh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="572"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XRZ-0N-Asj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="313" y="1155"/>
         </scene>
     </scenes>
 </document>

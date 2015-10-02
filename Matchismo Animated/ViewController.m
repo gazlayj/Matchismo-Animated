@@ -15,6 +15,7 @@
 @interface ViewController ()
 @property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UIView *cardsContainerView;
+
 @end
 
 @implementation ViewController
@@ -47,15 +48,19 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)viewDidLayoutSubviews
+{
     [self populateCardGrid];
 }
 
--(void)createCardGrid
+- (void)createCardGrid
 {
     self.cardGrid = [[Grid alloc] init];
-    self.cardGrid.size = CGSizeMake(self.view.bounds.size.width, self.cardsContainerView.bounds.size.height);
+    self.cardGrid.size = CGSizeMake(self.cardsContainerView.bounds.size.width, self.cardsContainerView.bounds.size.height);
     self.cardGrid.cellAspectRatio = 0.65;
-    self.cardGrid.minimumNumberOfCells = 10;
+    self.cardGrid.minimumNumberOfCells = 30;
 }
 
 - (void)populateCardGrid
