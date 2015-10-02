@@ -127,7 +127,7 @@
     [self setCardAtIndex:index forCardView:cardView];
     cardView.faceUp = NO;
     [self.view addSubview:cardView];
-    UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:cardView action:@selector(tappedCard:)];
+    UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCard:)];
     tapped.numberOfTapsRequired = 1;
     [cardView addGestureRecognizer:tapped];
     
@@ -146,6 +146,16 @@
 - (NSUInteger)indexForGridCellAtColumn:(NSUInteger)column andRow:(NSUInteger)row
 {
     return ([self.cardGrid columnCount] * row) + column;
+}
+
+-(void)tappedCard:(UITapGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        if ([sender.view ifKindOfClass:[PlayingCardView class]])
+        sender.view.faceUp = !sender.view.faceUp;
+        
+        //check if face up, if so let the parent view controller know the card was selected
+    }
 }
 
 
