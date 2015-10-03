@@ -151,9 +151,10 @@
 -(void)tappedCard:(UITapGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        if ([sender.view ifKindOfClass:[PlayingCardView class]])
-        sender.view.faceUp = !sender.view.faceUp;
-        
+        if ([sender.view isKindOfClass:[PlayingCardView class]]) {
+            PlayingCardView *cardView = (PlayingCardView *)sender.view;
+            cardView.faceUp = !cardView.faceUp;
+        }
         //check if face up, if so let the parent view controller know the card was selected
     }
 }
