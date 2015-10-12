@@ -14,6 +14,8 @@
 @interface CardsViewController ()
 @property (strong, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Grid *cardGrid;
+@property (nonatomic) CGSize cardViewSize;
+@property (strong, nonatomic) NSMutableArray *currentCardViews;
 
 @end
 
@@ -35,7 +37,19 @@
     self.cardGrid.minimumNumberOfCells = [self.cards count];
 }
 
+-(CGSize)cardViewSize
+{
+    CGRect frame = [self.cardGrid frameOfCellAtRow:0 inColumn:0];
+    return frame.size;
+}
 
+-(NSMutableArray *)currentCardViews
+{
+    if (!_currentCardViews) {
+        _currentCardViews = [[NSMutableArray alloc] init];
+    }
+    return _currentCardViews;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -110,7 +124,7 @@
                 CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
                 NSUInteger indexForCell = [self indexForGridCellAtColumn:column andRow:row];
                 if (indexForCell < [self.cards count]) {
-                    [self addCardViewWithFrame:cardFrame forCardAtIndex:indexForCell];
+                    [self addCardViewWithFrame:cardFrame forCardAtIndex:indexForCell animatedEntrance:YES];
                 }
             }
         }
@@ -119,17 +133,60 @@
     }
 }
 
-- (void)addCardViewWithFrame:(CGRect)cardViewFrame forCardAtIndex:(NSUInteger)index
+- (void)animateNewCardView:(PlayingCardView *)cardView withDelay:(NSTimeInterval)delay
+{
+    CGPoint finalCardViewCenter = cardView.center;
+    CGPoint startCardViewCenter = CGPointMake(0 - (cardView.frame.size.width /2), 0 - cardView.frame.size.height);
+    cardView.center = startCardViewCenter;
+    [self.view addSubview:cardView];
+    
+    [UIView animateWithDuration:1.0
+                          delay:delay
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                                  cardView.center = finalCardViewCenter;
+                              }
+                     completion:nil];
+    
+    
+}
+
+- (void)addCardViewWithFrame:(CGRect)cardViewFrame forCardAtIndex:(NSUInteger)index animatedEntrance:(BOOL)animated
 {
     PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardViewFrame];
     
     [self setCardAtIndex:index forCardView:cardView];
     cardView.faceUp = NO;
-    [self.view addSubview:cardView];
+    
+    if (animated) {
+        [self animateNewCardView:cardView withDelay:[self delayForCardIndex:index]];
+    } else {
+        [self.view addSubview:cardView];
+    }
+
+    [self addTappedGestureRecongnizerToCardView:cardView];
+    
+}
+
+- (void)addCardViewToCurrentCardViews:(PlayingCardView *)cardView
+{
+    [self.currentCardViews addObject:cardView];
+}
+
+-(NSTimeInterval)delayForCardIndex:(NSUInteger)index
+{
+    NSTimeInterval delay = 0.0;
+    if (index > 0) {
+        delay += index * 0.1;
+    }
+    return delay;
+}
+
+- (void)addTappedGestureRecongnizerToCardView:(PlayingCardView *)cardView
+{
     UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCard:)];
     tapped.numberOfTapsRequired = 1;
     [cardView addGestureRecognizer:tapped];
-    
 }
 
 - (void)setCardAtIndex:(NSUInteger)index forCardView:(PlayingCardView *)cardView
