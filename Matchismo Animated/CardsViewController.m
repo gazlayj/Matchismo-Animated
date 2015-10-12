@@ -233,7 +233,7 @@
             PlayingCardView *cardView = (PlayingCardView *)sender.view;
             cardView.faceUp = !cardView.faceUp;
         }
-        Card *tappedCard = [self cardForCardView];
+        Card *tappedCard = [self cardForCardView:sender];
         [self.delegate cardViewForCardTapped:tappedCard];
     }
 }
