@@ -12,7 +12,7 @@
 #import "CardsViewController.h"
 #import "Grid.h"
 
-@interface ViewController ()
+@interface ViewController () <CardsViewControllerDelegate>
 @property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UIView *cardsContainerView;
 
@@ -49,6 +49,7 @@ static const int NUMBER_OF_CARDS_TO_SHOW = 20;
         [cards addObject:[self.deck drawRandomCard]];
     }
     CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:[cards copy]];
+    cardsVC.delegate = self;
     [self displayContentController:cardsVC];
 }
 
@@ -59,7 +60,10 @@ static const int NUMBER_OF_CARDS_TO_SHOW = 20;
     [content didMoveToParentViewController:self];
 }
 
-
+-(void)cardViewForCardTapped:(Card *)card
+{
+    card.chosen = !card.isChosen;
+}
 
 
 @end

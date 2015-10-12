@@ -11,11 +11,14 @@
 #import "PlayingCard.h"
 #import "Grid.h"
 
+
+
 @interface CardsViewController ()
 @property (strong, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Grid *cardGrid;
 @property (nonatomic) CGSize cardViewSize;
 @property (strong, nonatomic) NSMutableArray *currentCardViews;
+
 
 @end
 
@@ -116,6 +119,16 @@
     return [self.cards indexOfObject:card];
 }
 
+- (NSUInteger)rowForCardIndex:(NSUInteger)index
+{
+    return index % self.cardGrid.rowCount;
+}
+
+- (NSUInteger)columnForCardIndex:(NSUInteger)index
+{
+    return index / self.cardGrid.rowCount;
+}
+
 - (void)populateCardGrid
 {
     if (self.cardGrid.inputsAreValid) {
@@ -202,6 +215,15 @@
 - (NSUInteger)indexForGridCellAtColumn:(NSUInteger)column andRow:(NSUInteger)row
 {
     return ([self.cardGrid columnCount] * row) + column;
+}
+
+- (NSUInteger)indexForCardView:(PlayingCardView *)cardView
+{
+    if ([self.currentCardViews containsObject:cardView]) {
+        return [self.currentCardViews indexOfObject:cardView];
+    } else {
+        return self.currentCardViews.count;
+    }
 }
 
 -(void)tappedCard:(UITapGestureRecognizer *)sender

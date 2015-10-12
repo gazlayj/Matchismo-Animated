@@ -9,11 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "Card.h"
 
+@protocol CardsViewControllerDelegate <NSObject>
+
+- (void)cardViewForCardTapped:(Card *)card;
+
+
+@end
+
 @interface CardsViewController : UIViewController
 
 - (instancetype)initWithCards:(NSArray *)cards;
 
 - (void)replaceCards:(NSArray *)currentCards withNewCards:(NSArray *)newCards animated:(BOOL)animated;
+
+@property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
 
 
 @end
