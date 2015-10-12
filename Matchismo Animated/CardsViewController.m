@@ -233,9 +233,20 @@
             PlayingCardView *cardView = (PlayingCardView *)sender.view;
             cardView.faceUp = !cardView.faceUp;
         }
-        //check if face up, if so let the parent view controller know the card was selected
+        Card *tappedCard = [self cardForCardView];
+        [self.delegate cardViewForCardTapped:tappedCard];
     }
 }
 
+- (Card *)cardForCardView:(PlayingCardView *)cardView
+{
+    if ([self.currentCardViews containsObject:cardView]) {
+        NSUInteger cardViewIndex = [self.currentCardViews indexOfObject:cardView];
+        if ([self.cards count] > cardViewIndex) {
+            return self.cards[cardsViewIndex];
+        }
+    }
+    return nil;
+}
 
 @end
