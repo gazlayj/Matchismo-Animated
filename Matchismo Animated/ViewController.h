@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Grid.h"
+#import "Deck.h"
 
 @interface ViewController : UIViewController
+-(Deck *)createDeck;
 
 @end
 

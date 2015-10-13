@@ -19,7 +19,6 @@
 @property (nonatomic) CGSize cardViewSize;
 @property (strong, nonatomic) NSMutableArray *currentCardViews;
 
-
 @end
 
 @implementation CardsViewController
@@ -232,9 +231,9 @@
         if ([sender.view isKindOfClass:[PlayingCardView class]]) {
             PlayingCardView *cardView = (PlayingCardView *)sender.view;
             cardView.faceUp = !cardView.faceUp;
+            Card *tappedCard = [self cardForCardView:cardView];
+            [self.delegate cardViewForCardTapped:tappedCard];
         }
-        Card *tappedCard = [self cardForCardView:sender];
-        [self.delegate cardViewForCardTapped:tappedCard];
     }
 }
 
@@ -243,7 +242,7 @@
     if ([self.currentCardViews containsObject:cardView]) {
         NSUInteger cardViewIndex = [self.currentCardViews indexOfObject:cardView];
         if ([self.cards count] > cardViewIndex) {
-            return self.cards[cardsViewIndex];
+            return self.cards[cardViewIndex];
         }
     }
     return nil;
