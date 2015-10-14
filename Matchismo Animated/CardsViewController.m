@@ -254,13 +254,15 @@
 
 -(void)animateCardFlipForCardView:(PlayingCardView *)cardView
 {
-    [UIView animateWithDuration:1
-                          delay:0
-                        options:UIViewAnimationOptionTransitionFlipFromRight
-                     animations:^{
-                         cardView.faceUp = !cardView.faceUp;
-                     }
-                     completion:nil];
+    [CATransaction flush];
+    [UIView transitionWithView:cardView
+                      duration:.5
+                       options:UIViewAnimationOptionTransitionFlipFromRight
+                    animations:^{
+                        cardView.faceUp = !cardView.faceUp;
+                    }
+                    completion:nil];
+    
 }
 
 @end
