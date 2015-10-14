@@ -20,11 +20,13 @@
 #pragma mark - Instance Methods
 - (void)choosecardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
+- (void)increaseInPlayCardsCountBy:(NSUInteger)count;
 
 #pragma mark - Properties
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic) NSUInteger numberOfCardsToCompareMatch;
 @property (nonatomic, readonly) BOOL gameStarted;
 @property (nonatomic, strong, readonly) NSArray *gameActions; // of CardGameAction
+@property (nonatomic) NSUInteger cardsInPlayCount;
 
 @end

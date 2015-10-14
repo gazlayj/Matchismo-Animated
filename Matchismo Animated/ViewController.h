@@ -11,7 +11,11 @@
 #import "Deck.h"
 
 @interface ViewController : UIViewController
+
+//FOR SUBCLASSING
 -(Deck *)createDeck;
+
+@property (nonatomic) NSUInteger numberOfCardsForGameStart;
 
 @end
 

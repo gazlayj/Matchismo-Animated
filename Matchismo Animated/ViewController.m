@@ -16,36 +16,30 @@
 @property (weak, nonatomic) IBOutlet UIView *cardsContainerView;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) NSMutableArray *cardsInPlay;
-@property (nonatomic) NSUInteger numberOfCardsInGame;
-@property (nonatomic) NSUInteger indexOfNextCardToDisplay;
-@property (strong, nonatomic) NSMutableArray *indexesOfDisplayedCards;
+
 @end
 
 @implementation ViewController
-
-static const int NUMBER_OF_CARDS_TO_SHOW = 20;
-
--(NSArray *)indexesOfDisplayedCardsAtIndexes:(NSIndexSet *)indexes
-{
-    if (!_indexesOfDisplayedCards) _indexesOfDisplayedCards = [[NSMutableArray alloc] init];
-    return _indexesOfDisplayedCards;
-}
 
 -(Deck *)createDeck
 {
     return [[PlayingCardDeck alloc] init];
 }
 
--(NSUInteger)numberOfCardsInGame
+-(NSUInteger)numberOfCardsForGameStart
 {
-    if (!_numberOfCardsInGame) _numberOfCardsInGame = 0;
-    return _numberOfCardsInGame;
+    return 20;
 }
 
--(NSUInteger)indexOfNextCardToDisplay
+-(NSMutableArray *)cardsInPlay
 {
-    if (!_indexOfNextCardToDisplay) _indexOfNextCardToDisplay = 0;
-    return _indexOfNextCardToDisplay;
+    for (int i = 0; i < self.game.cardsInPlayCount; i++) {
+        Card *card = [self.game cardAtIndex:i];
+        if (card) {
+            [_cardsInPlay addObject:card];
+        }
+    }
+    return _cardsInPlay;
 }
 
 -(CardMatchingGame *)game
@@ -60,6 +54,7 @@ static const int NUMBER_OF_CARDS_TO_SHOW = 20;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self newGame];
 }
 
 - (void)viewDidLayoutSubviews
@@ -69,14 +64,7 @@ static const int NUMBER_OF_CARDS_TO_SHOW = 20;
 
 - (void)displayCardsViewController
 {
-    NSMutableArray *cards = [[NSMutableArray alloc] init];
-    for (int i = 0; i < NUMBER_OF_CARDS_TO_SHOW; i++) {
-        [cards addObject:[self nextCardToDisplay]];
-        [self.indexesOfDisplayedCards addObject:[NSNumber numberWithUnsignedInteger:self.indexOfNextCardToDisplay]];
-        self.indexOfNextCardToDisplay += 1;
-    }
-    
-    CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:[cards copy]];
+    CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:[self.cardsInPlay copy]];
     cardsVC.delegate = self;
     [self displayContentController:cardsVC];
 }
@@ -91,33 +79,8 @@ static const int NUMBER_OF_CARDS_TO_SHOW = 20;
 -(void)cardViewForCardTapped:(Card *)card
 {
     card.chosen = !card.isChosen;
-    [self replaceMatchedCards];
 }
 
-- (void)replaceMatchedCards
-{
-    NSMutableArray *matchedCards = [[NSMutableArray alloc] init];
-    NSMutableArray *replacementCards = [[NSMutableArray alloc] init];
-    for (int i = 0; i < [self.indexesOfDisplayedCards count]; i++) {
-        NSUInteger cardIndex = [self.indexesOfDisplayedCards[i] unsignedIntegerValue];
-        Card *card = [self.game cardAtIndex:cardIndex];
-        if (card.isMatched) {
-            [matchedCards addObject:card];
-            [replacementCards addObject:[self nextCardToDisplay]];
-            self.indexOfNextCardToDisplay += 1;
-            
-
-        }
-    }
-    
-    if ([matchedCards count]) {
-        CardsViewController *cardsVC = [self getCardsViewController];
-        
-        [cardsVC replaceCards:matchedCards withNewCards:replacementCards animated:YES];
-        //need a way to replace the matchedCards index in indexesOfDisplayedCards with the Replacement card indexes
-
-    }
-}
 
 - (CardsViewController *)getCardsViewController
 {
@@ -132,15 +95,10 @@ static const int NUMBER_OF_CARDS_TO_SHOW = 20;
 - (void)newGame
 {
     Deck *deck = [self createDeck];
-    self.numberOfCardsInGame = [deck numberOfCardsInDeck];
-    self.game = [[CardMatchingGame alloc] initWithCardCount:self.numberOfCardsInGame
+    self.game = [[CardMatchingGame alloc] initWithCardCount:self.numberOfCardsForGameStart
                                                   usingDeck:deck];
 }
 
-- (Card *)nextCardToDisplay
-{
-    return [self.game cardAtIndex:self.indexOfNextCardToDisplay];
-}
 
 
 @end

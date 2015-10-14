@@ -10,7 +10,7 @@
 
 #pragma mark - CardMatchingGame Private Interface
 @interface CardMatchingGame()
-
+@property (strong, nonatomic) Deck *deck;
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
 @property (nonatomic, readwrite) BOOL gameStarted;
@@ -49,6 +49,11 @@ static const int COST_TO_CHOOSE = 1;
     return _gameActionHistory;
 }
 
+-(NSUInteger)cardsInPlayCount
+{
+    return [self.cards count];
+}
+
 @synthesize numberOfCardsToCompareMatch = _numberOfCardsToCompareMatch;
 
 - (void)setNumberOfCardsToCompareMatch:(NSUInteger)numberOfCardsToCompareMatch
@@ -73,18 +78,14 @@ static const int COST_TO_CHOOSE = 1;
     self = [super init]; // super's designated initializer
     
     if (self) {
-        for (int i = 0; i < count; i++) {
-            Card *card = [deck drawRandomCard];
-            if (card) {
-                [self.cards addObject:card];
-            } else {
-                self = nil;
-                break;
-            }
-            
+        self.deck = deck;
+        [self addCardsCount:count];
+        
+        if ([self.cards count] != count) {
+            self = nil;
         }
     }
-    
+
     return self;
 }
 
@@ -109,9 +110,26 @@ static const int COST_TO_CHOOSE = 1;
     }
 }
 
+- (void)increaseInPlayCardsCountBy:(NSUInteger)count;
+{
+    [self addCardsCount:count];
+}
+
 
 
 #pragma mark - Private Helper Methods
+
+- (void)addCardsCount:(NSUInteger)count
+{
+    for (int i = 0; i < count; i++) {
+        Card *card = [self.deck drawRandomCard];
+        if (card) {
+            [self.cards addObject:card];
+        } else {
+            break;
+        }
+    }
+}
 
 -(void)setChosenStateForCard:(Card *)card
 {
