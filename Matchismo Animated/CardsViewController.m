@@ -152,7 +152,7 @@
     cardView.center = startCardViewCenter;
     [self.view addSubview:cardView];
     
-    [UIView animateWithDuration:1.0
+    [UIView animateWithDuration:.5
                           delay:delay
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
@@ -190,7 +190,7 @@
 {
     NSTimeInterval delay = 0.0;
     if (index > 0) {
-        delay += index * 0.1;
+        delay += index * 0.05;
     }
     return delay;
 }
@@ -256,7 +256,7 @@
 {
     [CATransaction flush];
     [UIView transitionWithView:cardView
-                      duration:.5
+                      duration:.6
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
                         cardView.faceUp = !cardView.faceUp;
