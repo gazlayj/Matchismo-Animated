@@ -175,7 +175,8 @@
     } else {
         [self.view addSubview:cardView];
     }
-
+    
+    [self addCardViewToCurrentCardViews:cardView];
     [self addTappedGestureRecongnizerToCardView:cardView];
     
 }
@@ -221,7 +222,7 @@
     if ([self.currentCardViews containsObject:cardView]) {
         return [self.currentCardViews indexOfObject:cardView];
     } else {
-        return self.currentCardViews.count;
+        return [self.currentCardViews count];
     }
 }
 
@@ -230,22 +231,36 @@
     if (sender.state == UIGestureRecognizerStateEnded) {
         if ([sender.view isKindOfClass:[PlayingCardView class]]) {
             PlayingCardView *cardView = (PlayingCardView *)sender.view;
-            cardView.faceUp = !cardView.faceUp;
-            Card *tappedCard = [self cardForCardView:cardView];
-            [self.delegate cardViewForCardTapped:tappedCard];
+            [self animateCardFlipForCardView:cardView];
+            NSUInteger viewIndex = [self indexForCardView:cardView];
+            
+            if (viewIndex < [self.currentCardViews count]) {
+                [self.delegate tappedCardAtIndex:viewIndex];
+                [self updateCardsUI];
+            }
         }
     }
 }
 
-- (Card *)cardForCardView:(PlayingCardView *)cardView
+-(void)updateCardsUI
 {
-    if ([self.currentCardViews containsObject:cardView]) {
-        NSUInteger cardViewIndex = [self.currentCardViews indexOfObject:cardView];
-        if ([self.cards count] > cardViewIndex) {
-            return self.cards[cardViewIndex];
+    for (PlayingCardView *cardView in self.currentCardViews) {
+        Card *card = self.cards[[self.currentCardViews indexOfObject:cardView]];
+        if (cardView.faceUp != card.isChosen) {
+            [self animateCardFlipForCardView:cardView];
         }
     }
-    return nil;
+}
+
+-(void)animateCardFlipForCardView:(PlayingCardView *)cardView
+{
+    [UIView animateWithDuration:1
+                          delay:0
+                        options:UIViewAnimationOptionTransitionFlipFromRight
+                     animations:^{
+                         cardView.faceUp = !cardView.faceUp;
+                     }
+                     completion:nil];
 }
 
 @end

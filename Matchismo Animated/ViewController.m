@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *cardsContainerView;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) NSMutableArray *cardsInPlay;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @end
 
@@ -33,6 +34,8 @@
 
 -(NSMutableArray *)cardsInPlay
 {
+    if (!_cardsInPlay) _cardsInPlay = [[NSMutableArray alloc] init];
+        
     for (int i = 0; i < self.game.cardsInPlayCount; i++) {
         Card *card = [self.game cardAtIndex:i];
         if (card) {
@@ -54,7 +57,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [self newGame];
 }
 
 - (void)viewDidLayoutSubviews
@@ -64,23 +66,27 @@
 
 - (void)displayCardsViewController
 {
-    CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:[self.cardsInPlay copy]];
-    cardsVC.delegate = self;
-    [self displayContentController:cardsVC];
+    NSLog(@"cards in game %lu", (unsigned long)[self.game cardsInPlayCount]);
+    CardsViewController *vc = [self getCardsViewController];
+    if (!vc) {
+        CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:self.cardsInPlay];
+        cardsVC.delegate = self;
+        [self displayContentController:cardsVC];
+    }
 }
 
-- (void) displayContentController:(UIViewController*)content {
+- (void)displayContentController:(UIViewController*)content {
     [self addChildViewController:content];
     content.view.frame = self.cardsContainerView.frame;
     [self.view addSubview:content.view];
     [content didMoveToParentViewController:self];
 }
 
--(void)cardViewForCardTapped:(Card *)card
+-(void)tappedCardAtIndex:(NSUInteger)index
 {
-    card.chosen = !card.isChosen;
+    [self.game choosecardAtIndex:index];
+    [self updateScoreLabel];
 }
-
 
 - (CardsViewController *)getCardsViewController
 {
@@ -99,6 +105,10 @@
                                                   usingDeck:deck];
 }
 
+-(void)updateScoreLabel
+{
+    self.scoreLabel.text = [NSString stringWithFormat:@"SCORE: %ld", (long)[self.game score]];
+}
 
 
 @end

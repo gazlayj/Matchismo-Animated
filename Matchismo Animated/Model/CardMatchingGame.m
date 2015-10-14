@@ -108,6 +108,12 @@ static const int COST_TO_CHOOSE = 1;
         [self performGameAction];
         self.score -= COST_TO_CHOOSE;
     }
+    NSLog(@"Card: %@, Chosen: %@, Matched: %@", card.contents,[self stringFromBool:card.isChosen], [self stringFromBool:card.isMatched]);
+}
+
+-(NSString *)stringFromBool:(BOOL)boolValue
+{
+    return boolValue ? @"YES" : @"NO";
 }
 
 - (void)increaseInPlayCardsCountBy:(NSUInteger)count;

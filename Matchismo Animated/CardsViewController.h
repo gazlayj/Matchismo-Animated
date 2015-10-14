@@ -11,7 +11,7 @@
 
 @protocol CardsViewControllerDelegate <NSObject>
 
-- (void)cardViewForCardTapped:(Card *)card;
+- (void)tappedCardAtIndex:(NSUInteger)index;
 
 
 @end
