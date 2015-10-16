@@ -40,7 +40,6 @@
         [self setMatchActionType];
         [self setAttemptedMatchedCardsState];
     }
-    
     return self.actionType;
 }
 
@@ -74,7 +73,6 @@
             matchScore += [card match:remainingCards];
         }
     }
-    
     return matchScore;
 }
 

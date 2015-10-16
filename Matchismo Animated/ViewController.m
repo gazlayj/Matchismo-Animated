@@ -66,7 +66,6 @@
 
 - (void)displayCardsViewController
 {
-    NSLog(@"cards in game %lu", (unsigned long)[self.game cardsInPlayCount]);
     CardsViewController *vc = [self getCardsViewController];
     if (!vc) {
         CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:self.cardsInPlay];
