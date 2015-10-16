@@ -34,14 +34,8 @@
 
 -(NSMutableArray *)cardsInPlay
 {
-    if (!_cardsInPlay) _cardsInPlay = [[NSMutableArray alloc] init];
+    if (!_cardsInPlay) [self resetCardsInPlay];
         
-    for (int i = 0; i < self.game.cardsInPlayCount; i++) {
-        Card *card = [self.game cardAtIndex:i];
-        if (card) {
-            [_cardsInPlay addObject:card];
-        }
-    }
     return _cardsInPlay;
 }
 
@@ -57,6 +51,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self newGame];
 }
 
 - (void)viewDidLayoutSubviews
@@ -80,6 +75,12 @@
     [self.view addSubview:content.view];
     [content didMoveToParentViewController:self];
 }
+- (void)hideContentController: (UIViewController*) content {
+    [content willMoveToParentViewController:nil];
+    [content.view removeFromSuperview];
+    [content removeFromParentViewController];
+}
+
 
 -(void)tappedCardAtIndex:(NSUInteger)index
 {
@@ -102,11 +103,38 @@
     Deck *deck = [self createDeck];
     self.game = [[CardMatchingGame alloc] initWithCardCount:self.numberOfCardsForGameStart
                                                   usingDeck:deck];
+    [self resetCardsInPlay];
+    [self updateScoreLabel];
 }
+
+-(void)allCardViewsRemoved
+{
+    [self hideContentController:[self getCardsViewController]];
+    [self displayCardsViewController];
+}
+
+-(void)resetCardsInPlay
+{
+    self.cardsInPlay = [NSMutableArray new];
+    
+    for (int i = 0; i < self.game.cardsInPlayCount; i++) {
+        Card *card = [self.game cardAtIndex:i];
+        if (card) {
+            [self.cardsInPlay addObject:card];
+        }
+    }
+}
+
 
 -(void)updateScoreLabel
 {
     self.scoreLabel.text = [NSString stringWithFormat:@"SCORE: %ld", (long)[self.game score]];
+}
+
+- (IBAction)newGameButtonPressed:(UIButton *)sender {
+    [self newGame];
+    CardsViewController *cardsVC = [self getCardsViewController];
+    [cardsVC removeAllCardsFromViewAnimated:YES];
 }
 
 

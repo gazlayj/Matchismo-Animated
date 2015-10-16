@@ -12,7 +12,7 @@
 @protocol CardsViewControllerDelegate <NSObject>
 
 - (void)tappedCardAtIndex:(NSUInteger)index;
-
+- (void)allCardViewsRemoved;
 
 @end
 
@@ -21,6 +21,8 @@
 - (instancetype)initWithCards:(NSArray *)cards;
 
 - (void)replaceCards:(NSArray *)currentCards withNewCards:(NSArray *)newCards animated:(BOOL)animated;
+
+-(void)removeAllCardsFromViewAnimated:(BOOL)animated;
 
 @property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
 

@@ -190,12 +190,10 @@ static const int COST_TO_CHOOSE = 1;
     switch (action.actionType) {
         case Match:
             self.score += [action applyMatchBonusMultiplier:MATCH_BONUS];
-            NSLog(@"Match");
             break;
             
         case Mismatch:
             self.score += [action subtractMismatchPenalty:MISMATCH_PENALTY];
-            NSLog(@"Mismatch");
             break;
             
         default:

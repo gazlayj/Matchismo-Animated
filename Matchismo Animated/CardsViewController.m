@@ -18,6 +18,7 @@
 @property (strong, nonatomic) Grid *cardGrid;
 @property (nonatomic) CGSize cardViewSize;
 @property (strong, nonatomic) NSMutableArray *currentCardViews;
+@property (nonatomic)NSUInteger removedCardViewsCount;
 
 @end
 
@@ -142,6 +143,43 @@
         }
     } else {
         NSLog(@"Grid not created! inputs invalid");
+    }
+}
+
+- (void)removeAllCardsFromViewAnimated:(BOOL)animated
+{
+    for (UIView *cardView in self.currentCardViews) {
+       if (animated) {
+           NSUInteger index = [self.currentCardViews indexOfObject:cardView];
+           [self animateRemovalOfCardView:cardView withDelay:[self delayForCardIndex:index]];
+        }
+    }
+    
+    if ([self.currentCardViews count] == 0) {
+        [self.delegate allCardViewsRemoved];
+    }
+}
+
+- (void)animateRemovalOfCardView:(UIView *)cardView withDelay:(NSTimeInterval)delay
+{
+    CGPoint finalCardViewCenter = CGPointMake(0 - (cardView.frame.size.width /2), 0 - cardView.frame.size.height);
+    [UIView animateWithDuration:.5
+                          delay:delay
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         cardView.center = finalCardViewCenter;
+                     }
+                     completion:^(BOOL finished) {
+                         self.removedCardViewsCount += 1;
+                         [self informDelegateOfRemoval];
+                     }];
+
+}
+
+-(void)informDelegateOfRemoval
+{
+    if (self.removedCardViewsCount == [self.currentCardViews count]) {
+        [self.delegate allCardViewsRemoved];
     }
 }
 
