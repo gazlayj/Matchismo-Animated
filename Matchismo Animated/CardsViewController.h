@@ -20,11 +20,11 @@
 
 - (instancetype)initWithCards:(NSArray *)cards;
 
-- (void)replaceCards:(NSArray *)currentCards withNewCards:(NSArray *)newCards animated:(BOOL)animated;
-
 -(void)removeAllCardsFromViewAnimated:(BOOL)animated;
 
 -(void)updateUI;
+
+-(void)initCardViews;
 
 @property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
 

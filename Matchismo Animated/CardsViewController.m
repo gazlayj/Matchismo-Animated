@@ -17,7 +17,6 @@
 @property (strong, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Grid *cardGrid;
 @property (strong, nonatomic) NSMutableArray *currentCardViews;
-@property (nonatomic)NSUInteger removedCardViewsCount;
 
 @end
 
@@ -37,6 +36,8 @@
     self.cardGrid.size = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
     self.cardGrid.cellAspectRatio = 0.65;
     self.cardGrid.minimumNumberOfCells = [self.cards count];
+    
+    NSLog([NSString stringWithFormat:@"width: %f", self.view.bounds.size.width]);
 }
 
 -(NSMutableArray *)currentCardViews
@@ -50,9 +51,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+-(void)initCardViews
+{
     [self createCardGrid];
     [self populateCardGrid];
 }
+
 
 -(void)updateUI
 {
@@ -63,21 +69,14 @@
 -(void)rotateGridwithCurrentCardViews
 {
     if (self.cardGrid.inputsAreValid) {
-        for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
-            for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
-                CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
-                NSUInteger indexForCell = [self indexForGridCellAtColumn:column andRow:row];
-                if (indexForCell < [self.currentCardViews count]) {
-                    //[self animateCardView:self.currentCardViews[indexForCell] toNewFrame:cardFrame];
-                    PlayingCardView * cardView = self.currentCardViews[indexForCell];
-                    [cardView setFrame:cardFrame];
-                }
-            }
+        for (PlayingCardView *cardView in self.currentCardViews) {
+            NSUInteger viewIndex = [self indexForCardView:cardView];
+            CGRect newCardFrame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:viewIndex] inColumn:[self columnForCardIndex:viewIndex]];
+            [cardView setFrame:newCardFrame];
         }
     } else {
         NSLog(@"Grid not created! inputs invalid");
     }
-    
 }
 
 - (instancetype)initWithCards:(NSArray *)cards
@@ -96,42 +95,6 @@
     return self;
 }
 
-- (void)replaceCards:(NSArray *)currentCards withNewCards:(NSArray *)newCards animated:(BOOL)animated
-{
-    //width*column+row will give the cards[index]
-    //row = index % width
-    //column = index / width
-    
-    //replace old cards with new cards in self.cards
-    NSIndexSet *currentCardsIndices = [self getIndexSetForCards:currentCards];
-    
-    if ([currentCardsIndices count] == [newCards count]) {
-        [self.cards replaceObjectsAtIndexes:currentCardsIndices withObjects:newCards];
-    } else {
-        NSLog(@"Number of current cards to replace does NOT match the number of new cards");
-    }
-    
-    //animate currentCardViews off screen
-    //populate & animate newCardViews on screen
-}
-
-- (NSIndexSet *)getIndexSetForCards:(NSArray *)cards
-{
-    NSMutableIndexSet *indices = [[NSMutableIndexSet alloc] init];
-    
-    for (Card *card in cards) {
-        if ([self isCurrentCard:card]) {
-            [indices addIndex:[self indexForCard:card]];
-        }
-    }
-    
-    return [indices copy];
-}
-
-- (BOOL)isCurrentCard:(Card *)card
-{
-    return [self.cards containsObject:card];
-}
 
 - (NSUInteger)indexForCard:(Card *)card
 {
@@ -140,12 +103,12 @@
 
 - (NSUInteger)rowForCardIndex:(NSUInteger)index
 {
-    return index % self.cardGrid.rowCount;
+    return index / self.cardGrid.columnCount;
 }
 
 - (NSUInteger)columnForCardIndex:(NSUInteger)index
 {
-    return index / self.cardGrid.rowCount;
+    return index % self.cardGrid.columnCount;
 }
 
 - (void)populateCardGrid
@@ -174,9 +137,7 @@
         }
     }
     
-    if ([self.currentCardViews count] == 0) {
-        [self.delegate allCardViewsRemoved];
-    }
+    [self informDelegateOfRemoval];
 }
 
 - (void)animateRemovalOfCardView:(UIView *)cardView withDelay:(NSTimeInterval)delay
@@ -189,7 +150,7 @@
                          cardView.center = finalCardViewCenter;
                      }
                      completion:^(BOOL finished) {
-                         self.removedCardViewsCount += 1;
+                         [self.currentCardViews removeObject:cardView];
                          [self informDelegateOfRemoval];
                      }];
 
@@ -197,7 +158,7 @@
 
 -(void)informDelegateOfRemoval
 {
-    if (self.removedCardViewsCount == [self.currentCardViews count]) {
+    if ([self.currentCardViews count] == 0) {
         [self.delegate allCardViewsRemoved];
     }
 }

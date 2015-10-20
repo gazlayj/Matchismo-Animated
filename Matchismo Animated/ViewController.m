@@ -60,6 +60,7 @@
         CardsViewController *cardsVC = [self getCardsViewController];
         if (cardsVC) {
             [cardsVC.view setFrame:self.cardsContainerView.frame];
+            NSLog([NSString stringWithFormat:@"Transition cardcontainer width: %f", self.cardsContainerView.bounds.size.width]);
             [cardsVC updateUI];
         }
     }
@@ -77,16 +78,14 @@
     if (!vc) {
         CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:self.cardsInPlay];
         cardsVC.delegate = self;
-        [self displayContentController:cardsVC];
+        [self addChildViewController:cardsVC];
+        [cardsVC.view setFrame:self.cardsContainerView.frame];
+        [self.view addSubview:cardsVC.view];
+        [cardsVC didMoveToParentViewController:self];
+        [cardsVC initCardViews];
     }
 }
 
-- (void)displayContentController:(UIViewController*)content {
-    [self addChildViewController:content];
-    content.view.frame = self.cardsContainerView.frame;
-    [self.view addSubview:content.view];
-    [content didMoveToParentViewController:self];
-}
 - (void)hideContentController: (UIViewController*) content {
     [content willMoveToParentViewController:nil];
     [content.view removeFromSuperview];
