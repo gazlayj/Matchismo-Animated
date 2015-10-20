@@ -36,8 +36,6 @@
     self.cardGrid.size = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
     self.cardGrid.cellAspectRatio = 0.65;
     self.cardGrid.minimumNumberOfCells = [self.cards count];
-    
-    NSLog([NSString stringWithFormat:@"width: %f", self.view.bounds.size.width]);
 }
 
 -(NSMutableArray *)currentCardViews

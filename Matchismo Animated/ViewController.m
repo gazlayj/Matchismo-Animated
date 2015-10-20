@@ -60,7 +60,6 @@
         CardsViewController *cardsVC = [self getCardsViewController];
         if (cardsVC) {
             [cardsVC.view setFrame:self.cardsContainerView.frame];
-            NSLog([NSString stringWithFormat:@"Transition cardcontainer width: %f", self.cardsContainerView.bounds.size.width]);
             [cardsVC updateUI];
         }
     }
