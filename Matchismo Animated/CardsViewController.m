@@ -16,7 +16,6 @@
 @interface CardsViewController ()
 @property (strong, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Grid *cardGrid;
-@property (nonatomic) CGSize cardViewSize;
 @property (strong, nonatomic) NSMutableArray *currentCardViews;
 @property (nonatomic)NSUInteger removedCardViewsCount;
 
@@ -40,12 +39,6 @@
     self.cardGrid.minimumNumberOfCells = [self.cards count];
 }
 
--(CGSize)cardViewSize
-{
-    CGRect frame = [self.cardGrid frameOfCellAtRow:0 inColumn:0];
-    return frame.size;
-}
-
 -(NSMutableArray *)currentCardViews
 {
     if (!_currentCardViews) {
@@ -61,23 +54,23 @@
     [self populateCardGrid];
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+-(void)updateUI
 {
-    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [self rotateGridwithCurrentCardViews];
-    }];
+    [self createCardGrid];
+    [self rotateGridwithCurrentCardViews];
 }
 
 -(void)rotateGridwithCurrentCardViews
 {
-    [self createCardGrid];
     if (self.cardGrid.inputsAreValid) {
         for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
             for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
                 CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
                 NSUInteger indexForCell = [self indexForGridCellAtColumn:column andRow:row];
                 if (indexForCell < [self.currentCardViews count]) {
-                    [self animateCardView:self.currentCardViews[indexForCell] toNewFrame:cardFrame];
+                    //[self animateCardView:self.currentCardViews[indexForCell] toNewFrame:cardFrame];
+                    PlayingCardView * cardView = self.currentCardViews[indexForCell];
+                    [cardView setFrame:cardFrame];
                 }
             }
         }
@@ -85,17 +78,6 @@
         NSLog(@"Grid not created! inputs invalid");
     }
     
-}
-
--(void)animateCardView:(PlayingCardView *)cardView toNewFrame:(CGRect)cardFrame
-{
-    [UIView animateWithDuration:1
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         [cardView setFrame:cardFrame];
-                     }
-                     completion:nil];
 }
 
 - (instancetype)initWithCards:(NSArray *)cards

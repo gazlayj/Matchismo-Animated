@@ -54,6 +54,18 @@
     [self newGame];
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        CardsViewController *cardsVC = [self getCardsViewController];
+        if (cardsVC) {
+            [cardsVC.view setFrame:self.cardsContainerView.frame];
+            [cardsVC updateUI];
+        }
+    }
+                                 completion:nil];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [self displayCardsViewController];

@@ -24,6 +24,8 @@
 
 -(void)removeAllCardsFromViewAnimated:(BOOL)animated;
 
+-(void)updateUI;
+
 @property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
 
 
