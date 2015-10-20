@@ -61,6 +61,43 @@
     [self populateCardGrid];
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self rotateGridwithCurrentCardViews];
+    }];
+}
+
+-(void)rotateGridwithCurrentCardViews
+{
+    [self createCardGrid];
+    if (self.cardGrid.inputsAreValid) {
+        for (NSUInteger row = 0; row < self.cardGrid.rowCount; row++) {
+            for (NSUInteger column = 0; column < self.cardGrid.columnCount; column++) {
+                CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
+                NSUInteger indexForCell = [self indexForGridCellAtColumn:column andRow:row];
+                if (indexForCell < [self.currentCardViews count]) {
+                    [self animateCardView:self.currentCardViews[indexForCell] toNewFrame:cardFrame];
+                }
+            }
+        }
+    } else {
+        NSLog(@"Grid not created! inputs invalid");
+    }
+    
+}
+
+-(void)animateCardView:(PlayingCardView *)cardView toNewFrame:(CGRect)cardFrame
+{
+    [UIView animateWithDuration:1
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [cardView setFrame:cardFrame];
+                     }
+                     completion:nil];
+}
+
 - (instancetype)initWithCards:(NSArray *)cards
 {
     self = [super init];

@@ -29,7 +29,7 @@
 
 -(NSUInteger)numberOfCardsForGameStart
 {
-    return 20;
+    return 30;
 }
 
 -(NSMutableArray *)cardsInPlay
