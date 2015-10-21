@@ -20,7 +20,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J50-Ps-GOz">
                                 <rect key="frame" x="0.0" y="28" width="600" height="512"/>
-                                <color key="backgroundColor" red="1" green="0.96987530509999997" blue="0.1643114259" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GaB-QX-Wzu" userLabel="Game Info Container View">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
@@ -109,14 +108,14 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="Gpo-zP-d2p"/>
-                                <exclude reference="inS-7m-uli"/>
-                                <exclude reference="q5T-L0-Hh2"/>
                                 <exclude reference="FRa-4N-QhM"/>
                                 <exclude reference="Hsu-90-VdG"/>
                                 <exclude reference="Rll-jX-rEw"/>
                                 <exclude reference="n34-en-1ar"/>
                                 <exclude reference="wJW-Pv-3zm"/>
+                                <exclude reference="Gpo-zP-d2p"/>
+                                <exclude reference="inS-7m-uli"/>
+                                <exclude reference="q5T-L0-Hh2"/>
                                 <exclude reference="1Xt-kA-4cU"/>
                                 <exclude reference="DcZ-Xn-5PI"/>
                                 <exclude reference="bCi-DW-XGn"/>
@@ -124,11 +123,6 @@
                         </variation>
                         <variation key="heightClass=compact">
                             <mask key="constraints">
-                                <exclude reference="Gpo-zP-d2p"/>
-                                <exclude reference="fgn-8X-FrW"/>
-                                <include reference="inS-7m-uli"/>
-                                <include reference="q5T-L0-Hh2"/>
-                                <exclude reference="rKj-NC-Zte"/>
                                 <exclude reference="6fb-7t-2wA"/>
                                 <include reference="FRa-4N-QhM"/>
                                 <exclude reference="Hsu-90-VdG"/>
@@ -138,6 +132,11 @@
                                 <exclude reference="qvu-SM-9g2"/>
                                 <exclude reference="wJW-Pv-3zm"/>
                                 <exclude reference="zA0-2Y-zkb"/>
+                                <exclude reference="Gpo-zP-d2p"/>
+                                <exclude reference="fgn-8X-FrW"/>
+                                <include reference="inS-7m-uli"/>
+                                <include reference="q5T-L0-Hh2"/>
+                                <exclude reference="rKj-NC-Zte"/>
                                 <include reference="1Xt-kA-4cU"/>
                                 <exclude reference="DcZ-Xn-5PI"/>
                             </mask>

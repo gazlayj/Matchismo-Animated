@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Card.h"
+#import "CardView.h"
 
 @protocol CardsViewControllerDelegate <NSObject>
 
@@ -22,11 +23,24 @@
 
 -(void)removeAllCardsFromViewAnimated:(BOOL)animated;
 
--(void)updateUI;
-
 -(void)initCardViews;
 
+-(void)updateUI;
+
 @property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
+
+//for subclassing
+
+- (void)setCardAtIndex:(NSUInteger)index forCardView:(CardView *)cardView;
+
+-(void)tappedCard:(UITapGestureRecognizer *)sender;
+
+-(void)updateCardsUI;
+
+-(CardView *)newCardViewWithFrame:(CGRect)frame;
+
+@property (strong, nonatomic) NSMutableArray *cards;
+@property (strong, nonatomic) NSMutableArray *currentCardViews;
 
 
 @end

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "CardsViewController.h"
+#import "PlayingCardsViewController.h"
 #import "CardMatchingGame.h"
 #import "PlayingCardDeck.h"
 #import "Card.h"
@@ -68,7 +69,7 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [self displayCardsViewController];
+    [self displayPlayingCardsViewController];
 }
 
 - (void)displayCardsViewController
@@ -76,6 +77,20 @@
     CardsViewController *vc = [self getCardsViewController];
     if (!vc) {
         CardsViewController *cardsVC = [[CardsViewController alloc] initWithCards:self.cardsInPlay];
+        cardsVC.delegate = self;
+        [self addChildViewController:cardsVC];
+        [cardsVC.view setFrame:self.cardsContainerView.frame];
+        [self.view addSubview:cardsVC.view];
+        [cardsVC didMoveToParentViewController:self];
+        [cardsVC initCardViews];
+    }
+}
+
+- (void)displayPlayingCardsViewController
+{
+    CardsViewController *vc = [self getCardsViewController];
+    if (!vc) {
+        PlayingCardsViewController *cardsVC = [[PlayingCardsViewController alloc] initWithCards:self.cardsInPlay];
         cardsVC.delegate = self;
         [self addChildViewController:cardsVC];
         [cardsVC.view setFrame:self.cardsContainerView.frame];
@@ -120,7 +135,7 @@
 -(void)allCardViewsRemoved
 {
     [self hideContentController:[self getCardsViewController]];
-    [self displayCardsViewController];
+    [self displayPlayingCardsViewController];
 }
 
 -(void)resetCardsInPlay

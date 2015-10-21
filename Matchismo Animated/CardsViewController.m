@@ -7,16 +7,15 @@
 //
 
 #import "CardsViewController.h"
-#import "PlayingCardView.h"
 #import "PlayingCard.h"
 #import "Grid.h"
 
 
 
 @interface CardsViewController ()
-@property (strong, nonatomic) NSMutableArray *cards;
+
 @property (strong, nonatomic) Grid *cardGrid;
-@property (strong, nonatomic) NSMutableArray *currentCardViews;
+
 
 @end
 
@@ -67,7 +66,7 @@
 -(void)rotateGridwithCurrentCardViews
 {
     if (self.cardGrid.inputsAreValid) {
-        for (PlayingCardView *cardView in self.currentCardViews) {
+        for (CardView *cardView in self.currentCardViews) {
             NSUInteger viewIndex = [self indexForCardView:cardView];
             CGRect newCardFrame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:viewIndex] inColumn:[self columnForCardIndex:viewIndex]];
             [cardView setFrame:newCardFrame];
@@ -161,7 +160,7 @@
     }
 }
 
-- (void)animateNewCardView:(PlayingCardView *)cardView withDelay:(NSTimeInterval)delay
+- (void)animateNewCardView:(CardView *)cardView withDelay:(NSTimeInterval)delay
 {
     CGPoint finalCardViewCenter = cardView.center;
     CGPoint startCardViewCenter = CGPointMake(0 - (cardView.frame.size.width /2), 0 - cardView.frame.size.height);
@@ -181,10 +180,9 @@
 
 - (void)addCardViewWithFrame:(CGRect)cardViewFrame forCardAtIndex:(NSUInteger)index animatedEntrance:(BOOL)animated
 {
-    PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:cardViewFrame];
+    CardView *cardView = [self newCardViewWithFrame:cardViewFrame];
     
     [self setCardAtIndex:index forCardView:cardView];
-    cardView.faceUp = NO;
     
     if (animated) {
         [self animateNewCardView:cardView withDelay:[self delayForCardIndex:index]];
@@ -197,7 +195,12 @@
     
 }
 
-- (void)addCardViewToCurrentCardViews:(PlayingCardView *)cardView
+-(CardView *)newCardViewWithFrame:(CGRect)frame
+{
+    return [[CardView alloc] initWithFrame:frame];
+}
+
+- (void)addCardViewToCurrentCardViews:(CardView *)cardView
 {
     [self.currentCardViews addObject:cardView];
 }
@@ -211,21 +214,16 @@
     return delay;
 }
 
-- (void)addTappedGestureRecongnizerToCardView:(PlayingCardView *)cardView
+- (void)addTappedGestureRecongnizerToCardView:(CardView *)cardView
 {
     UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCard:)];
     tapped.numberOfTapsRequired = 1;
     [cardView addGestureRecognizer:tapped];
 }
 
-- (void)setCardAtIndex:(NSUInteger)index forCardView:(PlayingCardView *)cardView
+- (void)setCardAtIndex:(NSUInteger)index forCardView:(CardView *)cardView
 {
-    Card *card = self.cards[index];
-    if ([card isKindOfClass:[PlayingCard class]]) {
-        PlayingCard *playingCard = (PlayingCard *)card;
-        cardView.rank = playingCard.rank;
-        cardView.suit = playingCard.suit;
-    }
+
 }
 
 - (NSUInteger)indexForGridCellAtColumn:(NSUInteger)column andRow:(NSUInteger)row
@@ -233,7 +231,7 @@
     return ([self.cardGrid columnCount] * row) + column;
 }
 
-- (NSUInteger)indexForCardView:(PlayingCardView *)cardView
+- (NSUInteger)indexForCardView:(CardView *)cardView
 {
     if ([self.currentCardViews containsObject:cardView]) {
         return [self.currentCardViews indexOfObject:cardView];
@@ -245,11 +243,9 @@
 -(void)tappedCard:(UITapGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        if ([sender.view isKindOfClass:[PlayingCardView class]]) {
-            PlayingCardView *cardView = (PlayingCardView *)sender.view;
-            [self animateCardFlipForCardView:cardView];
+        if ([sender.view isKindOfClass:[CardView class]]) {
+            CardView *cardView = (CardView *)sender.view;
             NSUInteger viewIndex = [self indexForCardView:cardView];
-            
             if (viewIndex < [self.currentCardViews count]) {
                 [self.delegate tappedCardAtIndex:viewIndex];
                 [self updateCardsUI];
@@ -260,25 +256,9 @@
 
 -(void)updateCardsUI
 {
-    for (PlayingCardView *cardView in self.currentCardViews) {
-        Card *card = self.cards[[self.currentCardViews indexOfObject:cardView]];
-        if (cardView.faceUp != card.isChosen) {
-            [self animateCardFlipForCardView:cardView];
-        }
-    }
+
 }
 
--(void)animateCardFlipForCardView:(PlayingCardView *)cardView
-{
-    [CATransaction flush];
-    [UIView transitionWithView:cardView
-                      duration:.6
-                       options:UIViewAnimationOptionTransitionFlipFromRight
-                    animations:^{
-                        cardView.faceUp = !cardView.faceUp;
-                    }
-                    completion:nil];
-    
-}
+
 
 @end
