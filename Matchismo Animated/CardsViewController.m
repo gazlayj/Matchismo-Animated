@@ -60,10 +60,10 @@
 -(void)updateUI
 {
     [self createCardGrid];
-    [self rotateGridwithCurrentCardViews];
+    [self updateCardViewFrames];
 }
 
--(void)rotateGridwithCurrentCardViews
+-(void)updateCardViewFrames
 {
     if (self.cardGrid.inputsAreValid) {
         for (CardView *cardView in self.currentCardViews) {
