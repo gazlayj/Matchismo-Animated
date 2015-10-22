@@ -131,9 +131,17 @@
        if (animated) {
            NSUInteger index = [self.currentCardViews indexOfObject:cardView];
            [self animateRemovalOfCardView:cardView withDelay:[self delayForCardIndex:index]];
+        } else {
+            [self removeCardView:cardView];
         }
     }
     
+    [self informDelegateOfRemoval];
+}
+
+- (void)removeCardView:(CardView *)cardview
+{
+    [self.currentCardViews removeObject:cardView];
     [self informDelegateOfRemoval];
 }
 
@@ -147,8 +155,7 @@
                          cardView.center = finalCardViewCenter;
                      }
                      completion:^(BOOL finished) {
-                         [self.currentCardViews removeObject:cardView];
-                         [self informDelegateOfRemoval];
+                        [self removeCardView:cardView];;
                      }];
 
 }
