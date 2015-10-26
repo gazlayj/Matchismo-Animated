@@ -139,9 +139,9 @@
     [self informDelegateOfRemoval];
 }
 
-- (void)removeCardView:(CardView *)cardview
+- (void)removeCardView:(UIView *)cardview
 {
-    [self.currentCardViews removeObject:cardView];
+    [self.currentCardViews removeObject:cardview];
     [self informDelegateOfRemoval];
 }
 
