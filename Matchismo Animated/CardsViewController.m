@@ -21,6 +21,8 @@
 
 @property (strong, nonatomic) UIPinchGestureRecognizer *pinchGesture;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
+@property (strong, nonatomic) UIAttachmentBehavior *attachment;
 @property (nonatomic)BOOL cardsPiled;
 
 
@@ -61,6 +63,14 @@
     return _tapGesture;
 }
 
+- (UIPanGestureRecognizer *)panGesture
+{
+    if (!_panGesture) {
+        _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panCardsGestureRecongnizer:)];
+    }
+    return _panGesture;
+}
+
 -(UIDynamicAnimator *)animator
 {
     if (!_animator) {
@@ -98,6 +108,7 @@
             [self.pileCardsBehavior snapItem:view toPoint:[sender locationInView:self.view]];
         }
         self.cardsPiled = YES;
+        [self.view addGestureRecognizer:self.panGesture];
     }
 }
 
@@ -109,16 +120,28 @@
         [self.pileCardsBehavior removeAllBehaviors];
         [self updateUIAnimated:YES];
         self.cardsPiled = NO;
+        [self.view removeGestureRecognizer:self.panGesture];
     } else {
         [self tappedCard:sender];
     }
     
 }
 
--(void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
+- (void)panCardsGestureRecongnizer:(UIPanGestureRecognizer *)sender
 {
-    //self.pileCardsBehavior = [[PileCardsBehavior alloc] init];
-    //[self.pileCardsBehavior removeAllBehaviors];
+    CGPoint gesturePoint = [sender locationInView:self.view];
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [self panCardsToPoint:gesturePoint];
+    } else if (sender.state == UIGestureRecognizerStateChanged) {
+        [self panCardsToPoint:gesturePoint];
+    }
+}
+
+- (void)panCardsToPoint:(CGPoint)gesturePoint
+{
+    for (UIView *view in self.view.subviews) {
+        view.center = gesturePoint;
+    }
 }
 
 -(void)initCardViews
@@ -141,7 +164,7 @@
             NSUInteger viewIndex = [self indexForCardView:cardView];
             CGRect newCardFrame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:viewIndex] inColumn:[self columnForCardIndex:viewIndex]];
             if (animated) {
-                [UIView animateWithDuration:1
+                [UIView animateWithDuration:0.5
                                        delay:0
                                      options:UIViewAnimationOptionCurveEaseInOut
                                   animations:^{
