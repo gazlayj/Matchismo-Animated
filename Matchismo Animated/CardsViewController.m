@@ -131,6 +131,7 @@
 {
     CGPoint gesturePoint = [sender locationInView:self.view];
     if (sender.state == UIGestureRecognizerStateBegan) {
+        [self.pileCardsBehavior removeAllBehaviors];
         [self panCardsToPoint:gesturePoint];
     } else if (sender.state == UIGestureRecognizerStateChanged) {
         [self panCardsToPoint:gesturePoint];
@@ -235,6 +236,8 @@
 
 - (void)removeAllCardsFromViewAnimated:(BOOL)animated
 {
+    
+    [self.pileCardsBehavior removeAllBehaviors];
     for (UIView *cardView in self.currentCardViews) {
        if (animated) {
            NSUInteger index = [self.currentCardViews indexOfObject:cardView];
