@@ -61,7 +61,7 @@
         CardsViewController *cardsVC = [self getCardsViewController];
         if (cardsVC) {
             [cardsVC.view setFrame:self.cardsContainerView.frame];
-            [cardsVC updateUI];
+            [cardsVC updateUIAnimated:NO];
         }
     }
                                  completion:nil];

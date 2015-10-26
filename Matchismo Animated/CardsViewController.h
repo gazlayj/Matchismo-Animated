@@ -25,7 +25,7 @@
 
 -(void)initCardViews;
 
--(void)updateUI;
+-(void)updateUIAnimated:(BOOL)animated;
 
 @property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
 

@@ -9,12 +9,19 @@
 #import "CardsViewController.h"
 #import "PlayingCard.h"
 #import "Grid.h"
+#import "PileCardsBehavior.h"
 
 
 
-@interface CardsViewController ()
+@interface CardsViewController () <UIDynamicAnimatorDelegate>
 
+@property (strong, nonatomic) PileCardsBehavior *pileCardsBehavior;
+@property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) Grid *cardGrid;
+
+@property (strong, nonatomic) UIPinchGestureRecognizer *pinchGesture;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@property (nonatomic)BOOL cardsPiled;
 
 
 @end
@@ -27,6 +34,40 @@
         [self createCardGrid];
     }
     return _cardGrid;
+}
+
+- (PileCardsBehavior *)pileCardsBehavior
+{
+    if (!_pileCardsBehavior) {
+        _pileCardsBehavior = [[PileCardsBehavior alloc] init];
+        [self.animator addBehavior:_pileCardsBehavior];
+    }
+    return _pileCardsBehavior;
+}
+
+- (UIPinchGestureRecognizer *)pinchGesture
+{
+    if (!_pinchGesture) {
+        _pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchedCards:)];
+    }
+    return _pinchGesture;
+}
+
+- (UITapGestureRecognizer *)tapGesture
+{
+    if (!_tapGesture) {
+        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCardContainerView:)];
+    }
+    return _tapGesture;
+}
+
+-(UIDynamicAnimator *)animator
+{
+    if (!_animator) {
+        _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+        _animator.delegate = self;
+    }
+    return _animator;
 }
 
 - (void)createCardGrid
@@ -50,6 +91,36 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)pinchedCards:(UIPinchGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        for (UIView *view in self.view.subviews) {
+            [self.pileCardsBehavior snapItem:view toPoint:[sender locationInView:self.view]];
+        }
+        self.cardsPiled = YES;
+    }
+}
+
+
+
+- (void)tappedCardContainerView:(UITapGestureRecognizer *)sender
+{
+    if (self.cardsPiled) {
+        [self.pileCardsBehavior removeAllBehaviors];
+        [self updateUIAnimated:YES];
+        self.cardsPiled = NO;
+    } else {
+        [self tappedCard:sender];
+    }
+    
+}
+
+-(void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
+{
+    //self.pileCardsBehavior = [[PileCardsBehavior alloc] init];
+    //[self.pileCardsBehavior removeAllBehaviors];
+}
+
 -(void)initCardViews
 {
     [self createCardGrid];
@@ -57,19 +128,30 @@
 }
 
 
--(void)updateUI
+-(void)updateUIAnimated:(BOOL)animated
 {
     [self createCardGrid];
-    [self updateCardViewFrames];
+    [self updateCardViewFrames:animated];
 }
 
--(void)updateCardViewFrames
+-(void)updateCardViewFrames:(BOOL)animated
 {
     if (self.cardGrid.inputsAreValid) {
         for (CardView *cardView in self.currentCardViews) {
             NSUInteger viewIndex = [self indexForCardView:cardView];
             CGRect newCardFrame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:viewIndex] inColumn:[self columnForCardIndex:viewIndex]];
-            [cardView setFrame:newCardFrame];
+            if (animated) {
+                [UIView animateWithDuration:1
+                                       delay:0
+                                     options:UIViewAnimationOptionCurveEaseInOut
+                                  animations:^{
+                                      [cardView setFrame:newCardFrame];
+                                  }
+                                  completion:nil];
+            } else{
+                [cardView setFrame:newCardFrame];
+            }
+            
         }
     } else {
         NSLog(@"Grid not created! inputs invalid");
@@ -87,6 +169,9 @@
             self = nil;
             NSLog(@"You must initialize a CardsViewController with at least one card");
         }
+        
+        [self.view addGestureRecognizer:self.pinchGesture];
+        [self.view addGestureRecognizer:self.tapGesture];
     }
     
     return self;
@@ -223,7 +308,7 @@
 
 - (void)addTappedGestureRecongnizerToCardView:(CardView *)cardView
 {
-    UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCard:)];
+    UITapGestureRecognizer *tapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCardContainerView:)];
     tapped.numberOfTapsRequired = 1;
     [cardView addGestureRecognizer:tapped];
 }
