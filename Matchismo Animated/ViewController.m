@@ -150,6 +150,25 @@
     }
 }
 
+- (IBAction)addCardsButtonPressed:(UIButton *)sender
+{
+    NSUInteger cardsAddedCount = [self.game increaseInPlayCardsCountBy:1];
+    if (cardsAddedCount == 1) {
+        NSUInteger newCardIndex = [self.game cardsInPlayCount] - 1;
+        
+        Card *newCard = [self.game cardAtIndex:newCardIndex];
+        if (newCard) {
+            CardsViewController *cardsVC = [self getCardsViewController];
+            if (cardsVC) {
+                NSLog(@"New Card Added");
+                [self.cardsInPlay addObject:newCard];
+                [cardsVC addCard:newCard];
+            }
+        }
+
+    }
+    
+}
 
 -(void)updateScoreLabel
 {

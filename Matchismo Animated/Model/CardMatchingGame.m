@@ -115,9 +115,19 @@ static const int COST_TO_CHOOSE = 1;
     return boolValue ? @"YES" : @"NO";
 }
 
-- (void)increaseInPlayCardsCountBy:(NSUInteger)count;
+- (NSUInteger)increaseInPlayCardsCountBy:(NSUInteger)count;
 {
-    [self addCardsCount:count];
+    NSUInteger cardsAdded = 0;
+    for (int i = 0; i < count; i++) {
+        Card *card = [self.deck drawRandomCard];
+        if (card) {
+            [self.cards addObject:card];
+            cardsAdded += 1;
+        } else {
+            break;
+        }
+    }
+    return cardsAdded;
 }
 
 

@@ -27,6 +27,10 @@
 
 -(void)updateUIAnimated:(BOOL)animated;
 
+-(void)addCard:(Card *)card;
+
+-(void)removeCard:(Card *)card;
+
 @property (strong, nonatomic) id<CardsViewControllerDelegate> delegate;
 
 //for subclassing

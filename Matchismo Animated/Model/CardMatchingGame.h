@@ -20,7 +20,9 @@
 #pragma mark - Instance Methods
 - (void)choosecardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
-- (void)increaseInPlayCardsCountBy:(NSUInteger)count;
+
+//return is the number of cards successfully added
+- (NSUInteger)increaseInPlayCardsCountBy:(NSUInteger)count;
 
 #pragma mark - Properties
 @property (nonatomic, readonly) NSInteger score;

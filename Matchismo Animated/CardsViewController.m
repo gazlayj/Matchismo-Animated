@@ -201,6 +201,22 @@
     return self;
 }
 
+-(void)addCard:(Card *)card
+{
+    NSLog([NSString stringWithFormat:@"Card Count: %lu", (unsigned long)[self.cards count]]);
+    [self.cards addObject:card];
+    NSLog([NSString stringWithFormat:@"Card Count: %lu", (unsigned long)[self.cards count]]);
+    [self updateUIAnimated:YES];
+    NSUInteger cardIndex = [self.cards indexOfObject:card];
+    CGRect frame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:cardIndex] inColumn:[self columnForCardIndex:cardIndex]];
+    [self addCardViewWithFrame:frame forCardAtIndex:cardIndex animatedEntrance:YES];
+}
+
+-(void)removeCard:(Card *)card
+{
+    [self.cards removeObject:card];
+    [self updateUIAnimated:YES];
+}
 
 - (NSUInteger)indexForCard:(Card *)card
 {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -46,11 +46,25 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1h-nt-sOe">
+                                        <rect key="frame" x="259" y="15" width="82" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="82" id="7OO-m1-d19"/>
+                                        </constraints>
+                                        <state key="normal" title="New Card">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addCardsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3H8-Sv-XQX"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="1Sl-bg-jNg" firstAttribute="top" secondItem="GaB-QX-Wzu" secondAttribute="top" constant="12" id="44f-x7-Bfs"/>
                                     <constraint firstItem="1Sl-bg-jNg" firstAttribute="leading" secondItem="GaB-QX-Wzu" secondAttribute="leading" constant="8" id="4m3-E0-oFI"/>
+                                    <constraint firstItem="v1h-nt-sOe" firstAttribute="centerY" secondItem="GaB-QX-Wzu" secondAttribute="centerY" id="8KH-B6-g4M"/>
                                     <constraint firstItem="GJK-P6-oji" firstAttribute="leading" secondItem="GaB-QX-Wzu" secondAttribute="leading" constant="8" id="KY6-uh-6ns"/>
+                                    <constraint firstItem="v1h-nt-sOe" firstAttribute="centerX" secondItem="GaB-QX-Wzu" secondAttribute="centerX" id="LFd-ok-LQK"/>
                                     <constraint firstItem="1Sl-bg-jNg" firstAttribute="bottom" secondItem="GaB-QX-Wzu" secondAttribute="bottom" constant="-8" id="SZy-ls-bHt"/>
                                     <constraint firstAttribute="trailing" secondItem="1Sl-bg-jNg" secondAttribute="trailing" constant="8" id="ejv-j9-sQ9"/>
                                     <constraint firstAttribute="bottom" secondItem="1Sl-bg-jNg" secondAttribute="bottom" constant="8" id="f7E-Ru-PL7"/>
