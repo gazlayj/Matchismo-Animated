@@ -152,20 +152,23 @@
 
 - (IBAction)addCardsButtonPressed:(UIButton *)sender
 {
-    NSUInteger cardsAddedCount = [self.game increaseInPlayCardsCountBy:1];
-    if (cardsAddedCount == 1) {
-        NSUInteger newCardIndex = [self.game cardsInPlayCount] - 1;
+    NSUInteger numberOfCardsToAdd = 3;
+    NSUInteger cardsAddedCount = [self.game increaseInPlayCardsCountBy:numberOfCardsToAdd];
+    NSMutableArray *cardsToAdd = [[NSMutableArray alloc] init];
+    
+    for (NSUInteger i = 1; i <= cardsAddedCount; i++) {
+        NSUInteger index = [self.game cardsInPlayCount] - i;
         
-        Card *newCard = [self.game cardAtIndex:newCardIndex];
+        Card *newCard = [self.game cardAtIndex:index];
         if (newCard) {
-            CardsViewController *cardsVC = [self getCardsViewController];
-            if (cardsVC) {
-                NSLog(@"New Card Added");
-                [self.cardsInPlay addObject:newCard];
-                [cardsVC addCard:newCard];
-            }
+            [cardsToAdd addObject:newCard];
+            [self.cardsInPlay addObject:newCard];
         }
-
+    }
+    
+    CardsViewController *cardsVC = [self getCardsViewController];
+    if (cardsVC) {
+        [cardsVC addCards:[cardsToAdd copy]];
     }
     
 }

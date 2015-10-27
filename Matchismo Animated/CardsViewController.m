@@ -160,25 +160,28 @@
 
 -(void)updateCardViewFrames:(BOOL)animated
 {
-    if (self.cardGrid.inputsAreValid) {
-        for (CardView *cardView in self.currentCardViews) {
-            NSUInteger viewIndex = [self indexForCardView:cardView];
-            CGRect newCardFrame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:viewIndex] inColumn:[self columnForCardIndex:viewIndex]];
             if (animated) {
                 [UIView animateWithDuration:0.5
                                        delay:0
                                      options:UIViewAnimationOptionCurveEaseInOut
                                   animations:^{
-                                      [cardView setFrame:newCardFrame];
+                                      [self updateCardViewFrames];
                                   }
                                   completion:nil];
             } else{
-                [cardView setFrame:newCardFrame];
+                [self updateCardViewFrames];
             }
-            
+    
+}
+
+-(void)updateCardViewFrames
+{
+    if (self.cardGrid.inputsAreValid) {
+        for (CardView *cardView in self.currentCardViews) {
+            NSUInteger viewIndex = [self indexForCardView:cardView];
+            CGRect newCardFrame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:viewIndex] inColumn:[self columnForCardIndex:viewIndex]];
+            [cardView setFrame:newCardFrame];
         }
-    } else {
-        NSLog(@"Grid not created! inputs invalid");
     }
 }
 
@@ -201,15 +204,16 @@
     return self;
 }
 
--(void)addCard:(Card *)card
+-(void)addCards:(NSArray *)cards
 {
-    NSLog([NSString stringWithFormat:@"Card Count: %lu", (unsigned long)[self.cards count]]);
-    [self.cards addObject:card];
-    NSLog([NSString stringWithFormat:@"Card Count: %lu", (unsigned long)[self.cards count]]);
-    [self updateUIAnimated:YES];
-    NSUInteger cardIndex = [self.cards indexOfObject:card];
-    CGRect frame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:cardIndex] inColumn:[self columnForCardIndex:cardIndex]];
-    [self addCardViewWithFrame:frame forCardAtIndex:cardIndex animatedEntrance:YES];
+    for (Card *card in cards) {
+        [self.cards addObject:card];
+        [self createCardGrid];
+        NSUInteger cardIndex = [self.cards indexOfObject:card];
+        CGRect frame = [self.cardGrid frameOfCellAtRow:[self rowForCardIndex:cardIndex] inColumn:[self columnForCardIndex:cardIndex]];
+        [self addCardViewWithFrame:frame forCardAtIndex:cardIndex animatedEntrance:YES withDelay:[cards indexOfObject:card] * 0.1];
+        [self updateUIAnimated:YES];
+    }
 }
 
 -(void)removeCard:(Card *)card
@@ -241,7 +245,7 @@
                 CGRect cardFrame = [self.cardGrid frameOfCellAtRow:row inColumn:column];
                 NSUInteger indexForCell = [self indexForGridCellAtColumn:column andRow:row];
                 if (indexForCell < [self.cards count]) {
-                    [self addCardViewWithFrame:cardFrame forCardAtIndex:indexForCell animatedEntrance:YES];
+                    [self addCardViewWithFrame:cardFrame forCardAtIndex:indexForCell animatedEntrance:YES withDelay:[self delayForCardIndex:indexForCell]];
                 }
             }
         }
@@ -312,14 +316,14 @@
     
 }
 
-- (void)addCardViewWithFrame:(CGRect)cardViewFrame forCardAtIndex:(NSUInteger)index animatedEntrance:(BOOL)animated
+- (void)addCardViewWithFrame:(CGRect)cardViewFrame forCardAtIndex:(NSUInteger)index animatedEntrance:(BOOL)animated withDelay:(NSTimeInterval)delay
 {
     CardView *cardView = [self newCardViewWithFrame:cardViewFrame];
     
     [self setCardAtIndex:index forCardView:cardView];
     
     if (animated) {
-        [self animateNewCardView:cardView withDelay:[self delayForCardIndex:index]];
+        [self animateNewCardView:cardView withDelay: delay];
     } else {
         [self.view addSubview:cardView];
     }

@@ -27,7 +27,7 @@
 
 -(void)updateUIAnimated:(BOOL)animated;
 
--(void)addCard:(Card *)card;
+-(void)addCards:(NSArray *)cards;
 
 -(void)removeCard:(Card *)card;
 
